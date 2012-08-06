@@ -1,4 +1,4 @@
-var socket = io.connect('http://192.168.1.12/');
+var socket = io.connect(window.location.origin);
 var nickname;
 
 $(function () {
