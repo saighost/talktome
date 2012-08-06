@@ -1,0 +1,14 @@
+#login, #chat { display: none; }
+.login #login, .chat #chat { display: block; }
+
+.container { margin-top: 10px; }
+
+#chat-content { margin: 0; list-style: none; height: 100px; overflow: auto; }
+
+#chat-content .nickname { font-weight: bold; }
+#chat-content .info { color: #999; }
+#chat-content .msg.private { color: #000080; }
+#chat-content .msg.me { color: #008000; }
+
+#chat-content li { line-height: 20px; }
+

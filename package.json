@@ -1,0 +1,21 @@
+{
+  "name": "talktome",
+  "version": "0.0.1",
+  "author": "Yann Mainier <yann.mainier@gmail.com>",
+  "subdomain": "talktome.ymainier",
+
+  "description": "a simple chat",
+
+  "scripts": {
+    "start": "node ./server"
+  },
+
+  "dependencies": {
+    "express"   :  "3.x",
+    "socket.io" :  "0.9.x"
+  },
+
+  "engines": {
+    "node": ">=0.8"
+  }
+}

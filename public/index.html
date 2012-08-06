@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/client.css" rel="stylesheet">
+  </head>
+  <body class="login">
+    <div class="container">
+      <div id="login">
+        <form class="well form-inline">
+          <div class="input-append">
+            <input id="nickname-input" type="text" class="input-medium" placeholder="Nickname"><!--
+            --><button type="submit" class="btn">Go!</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="chat">
+        <div class="well">
+          <ol id="chat-content">
+          </ol>
+        </div>
+        <form class="well form-inline">
+          <div class="input-append">
+            <input id="chat-input" type="text" class="input-medium" placeholder="Message"><!--
+            --><button type="submit" class="btn">Say</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="/js/lib/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/client.js"></script>
+  </body>
+</html>
