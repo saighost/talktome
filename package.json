@@ -1,6 +1,6 @@
 {
   "name": "talktome",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Yann Mainier <yann.mainier@gmail.com>",
   "subdomain": "talktome.ymainier",
   "description": "a simple chat",
