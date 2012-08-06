@@ -15,7 +15,6 @@ io.sockets.on('connection', function (socket) {
 
   // User asking for a nickname
   socket.on('nickname', function (nickname, callback) {
-
     if (users[nickname]) {
       callback(false);
     } else {
@@ -34,11 +33,15 @@ io.sockets.on('connection', function (socket) {
       }
     });
   });
-  socket.on('whisper', function (message, to) {
+  socket.on('whisper', function (message, to, callback) {
     socket.get('nickname', function (err, nickname) {
       if (!err) {
         if (users[to]) {
           users[to].emit('msg:private', message, nickname, to);
+          receiverIsConnected = true;
+          callback(true);
+        } else {
+          callback(false);
         }
       }
     });

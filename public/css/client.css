@@ -3,7 +3,7 @@
 
 .container { margin-top: 10px; }
 
-#chat-content { margin: 0; list-style: none; height: 100px; overflow: auto; }
+#chat-content { margin: 0; list-style: none; height: 140px; overflow: auto; }
 
 #chat-content .nickname { font-weight: bold; }
 #chat-content .info { color: #999; }

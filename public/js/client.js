@@ -1,5 +1,9 @@
 var socket = io.connect(window.location.origin);
 var nickname;
+var quitRegExp = /^\/quit/;
+var whoRegExp = /^\/who/;
+var helpRegExp = /^\/help/;
+var atNickAndMessageRegExp = /^@([^\s]+)\s(.+)$/;
 
 $(function () {
   $('#login form').on('submit', function (event) {
@@ -10,7 +14,9 @@ $(function () {
       socket.emit('nickname', nickname, function (isAvailable) {
         if (isAvailable) {
           $('body').removeClass('login').addClass('chat');
-          $('#chat-content').html($('<li>').addClass("info").text('Connected as ' + nickname));
+          help();
+          addMessage('Connected as ' + nickname, 'info');
+          whoIsConnected();
         }
       });
     }
@@ -18,10 +24,24 @@ $(function () {
 
   $('#chat form').on('submit', function (event) {
     var message = $('#chat-input').val();
+    var match;
     event.preventDefault();
     $('#chat-input').val('');
-    if (/^\/quit/.test(message)) {
+    if (quitRegExp.test(message)) {
       window.location.reload();
+    } else if (whoRegExp.test(message)) {
+      whoIsConnected();
+    } else if (helpRegExp.test(message)) {
+      help();
+    } else if (atNickAndMessageRegExp.test(message)) {
+      match = message.match(atNickAndMessageRegExp);
+      socket.emit('whisper', match[2], match[1], function (receiverIsConnected) {
+        if (receiverIsConnected) {
+          addMessage(nickname + '@' + nicknameMarkup(match[1]) + ': ' + match[2], 'msg private');
+        } else {
+          addMessage(match[1] + ' not connected :(', 'info');
+        }
+      });
     } else {
       socket.emit('say', message);
       addMessageFrom(message, 'msg me', nickname);
@@ -48,6 +68,29 @@ function goToBottom() {
   $('#chat-content').animate({
     scrollTop: chatContent.scrollHeight - chatContent.clientHeight
   }, 300);
+}
+
+function whoIsConnected() {
+  socket.emit('command', 'who', function (who) {
+    var otherUsers = (who || []).filter(function (user) {return user !== nickname; });
+    var message;
+    if (otherUsers.length === 0) {
+      addMessage('No other user connected', 'info');
+    } else {
+      message = otherUsers.length > 1 ? 'Users' : 'User';
+      addMessage('Other ' + message + ' connected : ' + otherUsers.map(function (user) {
+        return nicknameMarkup(user);
+      }).join(', '), 'info');
+    }
+  });
+}
+
+function help() {
+  addMessage('With <3, source : <a href="https://github.com/ymainier/talktome.git">talktome.git</a>', 'info');
+  addMessage('Type "@nickname message" to send a private message to nickname', 'info');
+  addMessage('Type "/who" for a list of connected user', 'info');
+  addMessage('Type "/quit" to disconnect', 'info');
+  addMessage('Type "/help" for this message', 'info');
 }
 
 socket.on('user:connection', function (nickname) {
