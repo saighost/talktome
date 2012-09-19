@@ -1,7 +1,8 @@
 # What
 
-A simple chat application to understand how socket.io wroks
-First, you have to choose a nickname. Then you can 
+A simple chat application to understand how socket.io works. Testable here : http://talktome.ymainier.jit.su/
+
+First, you have to choose a nickname. Then you can :
 * Send message, by writing it in a text field and click on Say.
 * Send private message to another user : `@otheruser Hey you<Enter>`
 * Get the list of connected user : `/who<Enter>`
