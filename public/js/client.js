@@ -56,7 +56,7 @@ function addMessageFrom(message, type, from) {
 }
 
 function addUser(username) {
-  $('#user-list').append($('<li>').addClass('nickname').html(nickname));
+  $('#user-list').append($('<li>').addClass('nickname').html(username));
   goToBottom();
 }
 
