@@ -1,7 +1,6 @@
 var socket = io.connect(window.location.origin);
 var nickname;
 var quitRegExp = /^\/quit/;
-var whoRegExp = /^\/who/;
 var helpRegExp = /^\/help/;
 var atNickAndMessageRegExp = /^@([^\s]+)\s(.+)$/;
 
@@ -29,8 +28,6 @@ $(function () {
     $('#chat-input').val('');
     if (quitRegExp.test(message)) {
       window.location.reload();
-    } else if (whoRegExp.test(message)) {
-      whoIsConnected();
     } else if (helpRegExp.test(message)) {
       help();
     } else if (atNickAndMessageRegExp.test(message)) {
@@ -58,6 +55,21 @@ function addMessageFrom(message, type, from) {
   addMessage(nicknameMarkup(from) + ': ' + message, type);
 }
 
+function addUser(username) {
+  $('#user-list').append($('<li>').addClass('nickname').html(nickname));
+  goToBottom();
+}
+
+function removeUser(username) {
+  $('li.nickname').each(function (argument) {
+    if($(this).text()===username){
+      $(this).remove();
+      return false;
+    };
+  })
+  $('#'+username).remove();
+}
+
 function nicknameMarkup(nickname) {
   return '<span class="nickname">' + nickname + '</span>';
 }
@@ -72,33 +84,29 @@ function goToBottom() {
 
 function whoIsConnected() {
   socket.emit('command', 'who', function (who) {
-    var otherUsers = (who || []).filter(function (user) {return user !== nickname; });
+    $('#user-list').children().next().remove();
+    var users = $(who ||[]);
     var message;
-    if (otherUsers.length === 0) {
-      addMessage('No other user connected', 'info');
-    } else {
-      message = otherUsers.length > 1 ? 'Users' : 'User';
-      addMessage('Other ' + message + ' connected : ' + otherUsers.map(function (user) {
-        return nicknameMarkup(user);
-      }).join(', '), 'info');
-    }
+    users.each(function (i,user) {
+        addUser(user);
+    });
   });
 }
 
 function help() {
-  addMessage('With <3, source : <a href="https://github.com/ymainier/talktome.git">talktome.git</a>', 'info');
   addMessage('Type "@nickname message" to send a private message to nickname', 'info');
-  addMessage('Type "/who" for a list of connected user', 'info');
   addMessage('Type "/quit" to disconnect', 'info');
   addMessage('Type "/help" for this message', 'info');
 }
 
 socket.on('user:connection', function (nickname) {
+  addUser(nickname);
   addMessage(nicknameMarkup(nickname) + ' connected', 'info');
 });
 
 socket.on('user:disconnection', function (nickname) {
   if (nickname) {
+    removeUser(nickname);
     addMessage(nicknameMarkup(nickname) + ' disconnected', 'info');
   }
 });
