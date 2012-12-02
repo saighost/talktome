@@ -7,7 +7,7 @@
     <link href="css/client.css" rel="stylesheet">
   </head>
   <body class="login">
-    <div class="container">
+    <div class="container-fluid">
       <div id="login">
         <form class="well form-inline">
           <div class="input-append">
@@ -16,18 +16,27 @@
           </div>
         </form>
       </div>
-
-      <div id="chat">
-        <div class="well">
-          <ol id="chat-content">
-          </ol>
-        </div>
-        <form class="well form-inline">
-          <div class="input-append">
-            <input id="chat-input" type="text" class="input-medium" placeholder="Message"><!--
-            --><button type="submit" class="btn">Say</button>
+      <div id="chat" class="row-fluid">
+        <div class="span9">
+          <div class="well">
+            <ol id="chat-content">
+            </ol>
           </div>
-        </form>
+          <form class="well form-inline">
+            <div class="input-append">
+              <input id="chat-input" type="text" class="input-medium" placeholder="Message"><!--
+              --><button type="submit" class="btn">Say</button>
+            </div>
+          </form>
+        </div>
+        <div class="span2">
+          <div class="well sidebar-nav">
+            <ul id="user-list" class="nav nav-list">
+              <li class="nav-header">User List</li>
+              <!-- <li><a href="#">Link</a></li> -->
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
     <script src="/js/lib/jquery.min.js"></script>
